@@ -1,0 +1,18 @@
+# Node dependencies
+node_modules/
+
+# Python/ML dependencies
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Environment Variables (Keep these secret!)
+.env
+
+# MacOS system files
+.DS_Store
+
+# Machine Learning Models
+*.pkl
