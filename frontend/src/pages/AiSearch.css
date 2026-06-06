@@ -38,3 +38,53 @@
   transform: translateY(-2px);
   opacity: 0.9;
 }
+
+/* Ensure the dropdown stays attached to the search bar */
+.search-wrapper {
+  position: relative;
+  max-width: 700px;
+  width: 100%;
+}
+
+/* The Dropdown Menu */
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: calc(100% - 130px); /* Matches the width of the input box, leaving room for the button */
+  background: rgba(18, 18, 18, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  margin-top: 8px;
+  padding: 8px 0;
+  list-style: none;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom Scrollbar for the dropdown */
+.autocomplete-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+.autocomplete-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(0, 210, 255, 0.3);
+  border-radius: 10px;
+}
+
+/* Individual Movie List Items */
+.dropdown-item {
+  padding: 12px 25px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(0, 210, 255, 0.15);
+  color: #00d2ff;
+  padding-left: 30px; /* Cool slight bump effect on hover */
+}

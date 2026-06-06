@@ -1,25 +1,79 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home.css'; // Reusing your grid styles!
-import './AiSearch.css'; // We will create this for the search bar
+import './Home.css'; 
+import './AiSearch.css'; 
 
 const AiSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState([]); // AI recommended movies
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // --- NEW: Autocomplete State ---
+  const [allMovieTitles, setAllMovieTitles] = useState([]);
+  const [filteredTitles, setFilteredTitles] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // 1. Fetch all 5,000 movie titles when the page first loads
+  useEffect(() => {
+    const fetchMovieTitles = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5001/api/movies');
+        const data = await response.json();
+        setAllMovieTitles(data);
+      } catch (err) {
+        console.error("Could not load movie titles for autocomplete.", err);
+      }
+    };
+    fetchMovieTitles();
+  }, []);
+
+  // 2. Hide dropdown if user clicks outside of it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // 3. Handle what happens when the user types in the box
+  const handleTyping = (e) => {
+    const userInput = e.target.value;
+    setSearchTerm(userInput);
+
+    if (userInput.length > 0) {
+      // Filter the 5,000 titles to only show ones that include what the user typed
+      const matches = allMovieTitles.filter(title => 
+        title.toLowerCase().includes(userInput.toLowerCase())
+      );
+      setFilteredTitles(matches.slice(0, 8)); // Only show top 8 results so it doesn't get huge
+      setShowDropdown(true);
+    } else {
+      setShowDropdown(false);
+    }
+  };
+
+  // 4. Handle what happens when they click a movie from the dropdown
+  const handleSelectMovie = (title) => {
+    setSearchTerm(title);
+    setShowDropdown(false);
+  };
+
+  // (Your existing AI Search function)
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchTerm) return;
-
+    setShowDropdown(false); // Hide dropdown when searching
     setLoading(true);
     setError('');
     setMovies([]);
 
     try {
-      // 1. Send the movie name to your Python AI Server
       const aiResponse = await fetch('http://127.0.0.1:5001/api/recommend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -29,14 +83,12 @@ const AiSearch = () => {
       const aiData = await aiResponse.json();
 
       if (!aiResponse.ok) {
-        setError(aiData.error || 'Movie not found in our AI database. Try another one! (e.g., Avatar, The Dark Knight)');
+        setError(aiData.error || 'Movie not found in our AI database. Try another one!');
         setLoading(false);
         return;
       }
 
-      // 2. The AI returns IDs. Now we fetch the official posters from TMDB!
       const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-      
       const moviePromises = aiData.map(async (movie) => {
         const tmdbRes = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}`);
         return await tmdbRes.json();
@@ -53,7 +105,7 @@ const AiSearch = () => {
     }
   };
 
-  // The exact same save function so users can save AI recommendations!
+  // (Your existing Watchlist save function)
   const saveToWatchlist = async (movie) => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -69,10 +121,7 @@ const AiSearch = () => {
       };
       const response = await fetch('http://localhost:5000/api/user/watchlist', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(movieData)
       });
       const data = await response.json();
@@ -91,18 +140,38 @@ const AiSearch = () => {
       <h1 className="page-title">AI Matchmaker</h1>
       <p style={{ color: 'gray', marginBottom: '30px' }}>Type a movie you love, and our Machine Learning model will find 5 exact matches.</p>
       
-      <form onSubmit={handleSearch} className="search-form">
-        <input 
-          type="text" 
-          className="search-input"
-          placeholder="e.g. Interstellar, The Matrix, Iron Man..." 
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button type="submit" className="search-btn">
-          {loading ? 'Thinking...' : 'Discover'}
-        </button>
-      </form>
+      {/* NEW: Dropdown Wrapper */}
+      <div className="search-wrapper" ref={dropdownRef}>
+        <form onSubmit={handleSearch} className="search-form">
+          <input 
+            type="text" 
+            className="search-input"
+            placeholder="e.g. Interstellar, The Matrix, Iron Man..." 
+            value={searchTerm}
+            onChange={handleTyping}
+            onFocus={() => searchTerm.length > 0 && setShowDropdown(true)}
+            autoComplete="off"
+          />
+          <button type="submit" className="search-btn">
+            {loading ? 'Thinking...' : 'Discover'}
+          </button>
+        </form>
+
+        {/* NEW: The Smart Dropdown Menu */}
+        {showDropdown && filteredTitles.length > 0 && (
+          <ul className="autocomplete-dropdown">
+            {filteredTitles.map((title, index) => (
+              <li 
+                key={index} 
+                onClick={() => handleSelectMovie(title)}
+                className="dropdown-item"
+              >
+                {title}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       {error && <p className="error-msg">{error}</p>}
       
