@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home.css'; // We are reusing your awesome grid styles!
+import './Home.css'; 
 
 const Watchlist = () => {
   const [movies, setMovies] = useState([]);
@@ -12,31 +12,33 @@ const Watchlist = () => {
     const fetchWatchlist = async () => {
       const token = localStorage.getItem('token');
       
-      // If no token is found, kick them back to login
+      // If no token is found, redirect to login
       if (!token) {
         navigate('/login');
         return;
       }
 
       try {
-        const response = await fetch('https://susa000-movie-node-backend.hf.space/api/auth/watchlist', {
+        // Corrected URL: fetching from user routes instead of auth routes!
+        const response = await fetch('https://susa000-movie-node-backend.hf.space/api/user/watchlist', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}` // Passing the VIP wristband!
+            'Authorization': `Bearer ${token}` 
           }
         });
         
         const data = await response.json();
         
         if (response.ok) {
-          // If the list is empty, our map function later will just render nothing, which is fine!
           setMovies(data);
         } else {
-          setError(data.message);
+          // Capturing specific backend error messages
+          setError(`Server Error: ${data.message || 'Unable to fetch watchlist'}`);
         }
       } catch (err) {
         console.error("Error fetching watchlist:", err);
-        setError("Failed to connect to the server.");
+        // Surfacing the exact catch error to the UI
+        setError(`Connection Error: ${err.message}. Check your internet or backend status.`);
       } finally {
         setLoading(false);
       }
@@ -49,11 +51,16 @@ const Watchlist = () => {
     <div className="home-container">
       <h1 className="page-title">My Watchlist</h1>
       
-      {error && <p className="error-msg">{error}</p>}
+      {/* Enhanced error display for debugging */}
+      {error && (
+        <div style={{ backgroundColor: '#ff4c4c', color: 'white', padding: '15px', borderRadius: '8px', margin: '20px auto', maxWidth: '90%' }}>
+          <p className="error-msg" style={{ margin: 0 }}>{error}</p>
+        </div>
+      )}
       
       {loading ? (
         <p className="loading-text">Loading your movies...</p>
-      ) : movies.length === 0 ? (
+      ) : movies.length === 0 && !error ? (
         <div style={{ textAlign: 'center', marginTop: '50px' }}>
           <h2 style={{ color: 'white' }}>Your watchlist is empty!</h2>
           <p style={{ color: '#00d2ff', marginTop: '10px' }}>Go to the Home page to add some movies.</p>
