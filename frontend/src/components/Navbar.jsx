@@ -11,7 +11,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     // Redirect to login and force state update
-    window.location.href = '/login';
+    navigate('/login');
   };
 
   return (
