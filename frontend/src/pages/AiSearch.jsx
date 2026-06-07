@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import './Home.css'; 
 import './AiSearch.css'; 
 
+// --- NEW: Your Live Hugging Face AI URL ---
+const AI_API_BASE_URL = "https://susa000-movie-ai-backend.hf.space";
+
 const AiSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [movies, setMovies] = useState([]); // AI recommended movies
@@ -10,7 +13,7 @@ const AiSearch = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // --- NEW: Autocomplete State ---
+  // Autocomplete State
   const [allMovieTitles, setAllMovieTitles] = useState([]);
   const [filteredTitles, setFilteredTitles] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -20,7 +23,8 @@ const AiSearch = () => {
   useEffect(() => {
     const fetchMovieTitles = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5001/api/movies');
+        // UPDATED: Now fetches from your live cloud AI
+        const response = await fetch(`${AI_API_BASE_URL}/api/movies`);
         const data = await response.json();
         setAllMovieTitles(data);
       } catch (err) {
@@ -47,11 +51,10 @@ const AiSearch = () => {
     setSearchTerm(userInput);
 
     if (userInput.length > 0) {
-      // Filter the 5,000 titles to only show ones that include what the user typed
       const matches = allMovieTitles.filter(title => 
         title.toLowerCase().includes(userInput.toLowerCase())
       );
-      setFilteredTitles(matches.slice(0, 8)); // Only show top 8 results so it doesn't get huge
+      setFilteredTitles(matches.slice(0, 8)); 
       setShowDropdown(true);
     } else {
       setShowDropdown(false);
@@ -64,17 +67,18 @@ const AiSearch = () => {
     setShowDropdown(false);
   };
 
-  // (Your existing AI Search function)
+  // AI Search function
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchTerm) return;
-    setShowDropdown(false); // Hide dropdown when searching
+    setShowDropdown(false); 
     setLoading(true);
     setError('');
     setMovies([]);
 
     try {
-      const aiResponse = await fetch('http://127.0.0.1:5001/api/recommend', {
+      // UPDATED: Now posts to your live cloud AI
+      const aiResponse = await fetch(`${AI_API_BASE_URL}/api/recommend`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ movie: searchTerm })
@@ -105,7 +109,7 @@ const AiSearch = () => {
     }
   };
 
-  // (Your existing Watchlist save function)
+  // Watchlist save function
   const saveToWatchlist = async (movie) => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -119,7 +123,8 @@ const AiSearch = () => {
         title: movie.title || movie.name,
         posterPath: movie.poster_path
       };
-      const response = await fetch('http://localhost:5000/api/user/watchlist', {
+      // Note: This still points to your local Node.js server for now!
+      const response = await fetch('https://susa000-movie-node-backend.hf.space/api/user/watchlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(movieData)
@@ -140,7 +145,6 @@ const AiSearch = () => {
       <h1 className="page-title">AI Matchmaker</h1>
       <p style={{ color: 'gray', marginBottom: '30px' }}>Type a movie you love, and our Machine Learning model will find 5 exact matches.</p>
       
-      {/* NEW: Dropdown Wrapper */}
       <div className="search-wrapper" ref={dropdownRef}>
         <form onSubmit={handleSearch} className="search-form">
           <input 
@@ -157,7 +161,6 @@ const AiSearch = () => {
           </button>
         </form>
 
-        {/* NEW: The Smart Dropdown Menu */}
         {showDropdown && filteredTitles.length > 0 && (
           <ul className="autocomplete-dropdown">
             {filteredTitles.map((title, index) => (
