@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './Auth.css'; // Reusing your awesome glassmorphism styles!
+import './Auth.css'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +13,6 @@ const Login = () => {
     setError('');
 
     try {
-      // FIXED SYNTAX HERE:
       const response = await fetch('https://susa000-movie-node-backend.hf.space/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -23,9 +22,7 @@ const Login = () => {
       const data = await response.json();
       
       if (response.ok) {
-        // Save the new token to localStorage
         localStorage.setItem('token', data.token);
-        // Force a page reload to update the Navbar state, then redirect home
         window.location.href = '/'; 
       } else {
         setError(data.message);
@@ -36,32 +33,52 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="glass-card">
-        <h2>Welcome Back</h2>
-        {error && <p className="error-msg">{error}</p>}
+    <div className="auth-wrapper">
+      <div className="auth-container">
         
-        <form onSubmit={handleLogin}>
-          <input 
-            type="email" 
-            placeholder="Email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            required 
-          />
-          <input 
-            type="password" 
-            placeholder="Password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
-          <button type="submit">Log In</button>
-        </form>
-        
-        <p style={{ marginTop: '20px', fontSize: '14px' }}>
-          Don't have an account? <Link to="/register" style={{ color: '#00d2ff' }}>Sign up</Link>
-        </p>
+        {/* Left Side: Form */}
+        <div className="auth-form-section">
+          <div className="auth-header">
+            <h2>Welcome Back</h2>
+            <p>Log in to discover your next favorite movie.</p>
+          </div>
+
+          {error && <p className="error-msg">{error}</p>}
+          
+          <form className="auth-form" onSubmit={handleLogin}>
+            <input 
+              type="email" 
+              placeholder="Email Address" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              required 
+            />
+            <input 
+              type="password" 
+              placeholder="Password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              required 
+            />
+            <button className="auth-btn" type="submit">SIGN IN</button>
+          </form>
+          
+          <div className="auth-footer">
+            Don't have an account? 
+            <Link to="/register" className="auth-link">Sign Up Now</Link>
+          </div>
+        </div>
+
+        {/* Right Side: Visual Branding */}
+        <div className="auth-image-section">
+          <div className="auth-image-overlay">
+            <h1 className="brand-logo">CineMatch</h1>
+            <p className="brand-tagline">
+              Experience the power of Machine Learning. Let our AI find the perfect movies tailored exactly to your taste.
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
   );
