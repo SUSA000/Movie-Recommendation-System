@@ -19,7 +19,7 @@ const Watchlist = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/user/watchlist', {
+        const response = await fetch('https://susa000-movie-node-backend.hf.space/api/auth/watchlist', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}` // Passing the VIP wristband!
