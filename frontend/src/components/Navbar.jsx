@@ -1,23 +1,28 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Player } from '@lottiefiles/react-lottie-player'; // Using the official, stable package
+import { Player } from '@lottiefiles/react-lottie-player';
 import aiAnimation from './ai-animation.json';
 import './Navbar.css';
 
 const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-  // Check if user is logged in
   const token = localStorage.getItem('token');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    // Redirect to login and force state update
+    setIsMobileMenuOpen(false); // Close menu on logout
     navigate('/login');
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
     <nav className="navbar">
-      {/* Brand Logo & Text Together */}
-      <Link to="/" className="navbar-logo">
+      {/* Brand Logo & Text */}
+      <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
         <img 
           src="/LOGO.png" 
           alt="CineMatch Logo" 
@@ -28,33 +33,39 @@ const Navbar = () => {
         </div>
       </Link>
 
+      {/* Hamburger Icon (Only visible on mobile) */}
+      <div className="mobile-menu-icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        {isMobileMenuOpen ? (
+          <span className="close-icon">✖</span>
+        ) : (
+          <span className="hamburger-icon">☰</span>
+        )}
+      </div>
+
       {/* Navigation Links */}
-      <div className="navbar-links">
+      <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
         
-        {/* NEW MODERN LOTTIE BUTTON */}
-        <Link to="/ai-match" className="nav-link ai-nav-link">
+        <Link to="/ai-match" className="nav-link ai-nav-link" onClick={closeMobileMenu}>
           <div className="lottie-icon">
-            {/* The Official Player Component */}
             <Player
               autoplay
               loop
               src={aiAnimation}
-              style={{ height: '60px', width: '60px' }}
+              style={{ height: '100%', width: '100%' }}
             />
           </div>
           <span>CineAI</span>
         </Link>
         
-        {/* Conditional Rendering based on Authentication */}
         {token ? (
           <>
-            <Link to="/watchlist" className="nav-link">Watchlist</Link>
+            <Link to="/watchlist" className="nav-link" onClick={closeMobileMenu}>Watchlist</Link>
             <button onClick={handleLogout} className="nav-btn logout-btn">Logout</button>
           </>
         ) : (
           <>
-            <Link to="/login" className="nav-link">Login</Link>
-            <Link to="/register" className="nav-btn signup-btn">Sign Up</Link>
+            <Link to="/login" className="nav-link" onClick={closeMobileMenu}>Login</Link>
+            <Link to="/register" className="nav-btn signup-btn" onClick={closeMobileMenu}>Sign Up</Link>
           </>
         )}
       </div>

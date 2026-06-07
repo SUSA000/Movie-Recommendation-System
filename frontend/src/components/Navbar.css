@@ -1,17 +1,20 @@
-/* Sleek, dark cinematic background */
+/* --- Desktop Navbar Layout --- */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 50px;
-  background-color: #0b0b0b; 
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  padding: 15px 5%;
+  background-color: rgba(11, 11, 11, 0.95); /* Slight transparency */
+  backdrop-filter: blur(10px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
   position: sticky;
   top: 0;
   z-index: 1000;
+  height: 70px;
 }
 
-/* Logo Styling */
+/* --- Logo Styling --- */
 .navbar-logo {
   font-size: 24px;
   font-weight: 800;
@@ -19,19 +22,36 @@
   letter-spacing: 1px;
   display: flex;
   align-items: center;
+  gap: 12px; /* Fixed the massive 78px gap */
+}
+
+.brand-image {
+  height: 40px; /* Clean, fixed height without scale() */
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.navbar-logo:hover .brand-image {
+  transform: scale(1.05); /* Gentle, clean hover effect */
+}
+
+.brand-text {
+  display: flex;
+  align-items: center;
 }
 
 .logo-white { color: #ffffff; }
 .logo-red { color: #e50914; }
 
-/* Links Container */
+/* --- Links Container --- */
 .navbar-links {
   display: flex;
   align-items: center;
   gap: 30px;
 }
 
-/* Individual Text Links */
+/* --- Individual Links --- */
 .nav-link {
   color: #e1e1e1;
   text-decoration: none;
@@ -43,13 +63,32 @@
 }
 
 .nav-link:hover {
-  color: #e50914; /* Turns cinematic red on hover */
+  color: #e50914; 
 }
 
-/* Button Styling (Matches your new Auth buttons) */
+/* --- CineAI Special Link --- */
+.ai-nav-link {
+  gap: 8px;
+  font-weight: 700;
+}
+
+.lottie-icon {
+  width: 40px; 
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-nav-link:hover .lottie-icon {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+/* --- Buttons --- */
 .nav-btn {
   padding: 10px 24px;
-  border-radius: 30px; /* Pill shape */
+  border-radius: 30px; 
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
@@ -81,68 +120,51 @@
   border-color: #e50914;
 }
 
-/* Mobile Responsiveness */
+/* --- Mobile Menu Icon --- */
+.mobile-menu-icon {
+  display: none; /* Hidden on desktop */
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+  z-index: 1001; /* Keeps icon above the sliding menu */
+}
+
+/* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
-  .navbar { 
-    padding: 15px 20px; 
+  .mobile-menu-icon {
+    display: block; /* Show hamburger on mobile */
   }
-  .navbar-links { 
-    gap: 15px; 
+
+  .navbar-links {
+    position: absolute;
+    top: 70px; /* Starts exactly below the navbar */
+    right: -100%; /* Hidden off-screen to the right */
+    flex-direction: column;
+    background-color: rgba(11, 11, 11, 0.98);
+    width: 100%;
+    height: calc(100vh - 70px); /* Full screen height */
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 40px;
+    gap: 40px;
+    transition: right 0.4s ease; /* Smooth slide animation */
+    backdrop-filter: blur(15px);
   }
-  .nav-link span {
-    display: none; /* Hides text like "AI Match" on small screens, keeps the emoji */
+
+  /* When state is true, this class slides the menu in */
+  .navbar-links.active {
+    right: 0; 
   }
-}
 
-/* Keeps the logo and text perfectly aligned side-by-side */
-.navbar-logo {
-  font-size: 24px;
-  font-weight: 800;
-  text-decoration: none;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 78px; /* Adds a nice space between the picture and the text */
-}
+  /* Make buttons bigger on mobile for easy tapping */
+  .nav-btn {
+    width: 80%;
+    text-align: center;
+    padding: 15px;
+    font-size: 16px;
+  }
 
-.brand-text {
-  display: flex;
-  align-items: center;
-}
-
-.logo-white { color: #ffffff; }
-.logo-red { color: #e50914; }
-
-.brand-image {
-  height: 40px; /* Keep this small so the navbar stays perfectly thin! */
-  width: auto;
-  object-fit: contain;
-  /* This scales the logo up by 60% visually without changing the navbar height */
-  transform: scale(5.0); 
-  /* Anchors the zoom to the left so it doesn't crash into the "CineMatch" text */
-  transform-origin: left center; 
-  transition: transform 0.3s ease;
-}
-
-.brand-image:hover {
-  /* Slightly bigger on hover to keep your smooth animation working */
-  transform: scale(4.5); 
-}
-
-.ai-nav-link {
-  display: flex;
-  align-items: center; 
-}
-
-.lottie-icon {
-  width: 45px; 
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ai-nav-link:hover .lottie-icon {
-  transform: translateY(-2px);
-  transition: transform 0.3s ease;
+  .nav-link {
+    font-size: 18px;
+  }
 }
