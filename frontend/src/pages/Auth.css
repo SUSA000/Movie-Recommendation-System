@@ -174,3 +174,36 @@
     padding: 40px 20px;
   }
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .auth-container {
+    /* column-reverse stacks the red image section on top, and the white form on the bottom */
+    flex-direction: column-reverse; 
+    height: auto;
+  }
+  
+  .auth-image-section {
+    /* We removed display: none so the branding now shows on your phone! */
+    display: block; 
+    min-height: 220px; /* Gives the red banner enough height */
+  }
+
+  .auth-image-overlay {
+    padding: 30px 20px;
+  }
+  
+  .auth-form-section {
+    padding: 40px 20px;
+  }
+  
+  .brand-logo {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  
+  .brand-tagline {
+    font-size: 14px;
+    max-width: 100%;
+  }
+}

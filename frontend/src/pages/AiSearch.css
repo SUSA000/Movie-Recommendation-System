@@ -1,80 +1,128 @@
+/* --- Base Layout --- */
+.ai-search-container {
+  padding: 60px 5%;
+  min-height: calc(100vh - 80px); /* Adjusts for navbar height */
+  background-color: #0b0b0b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ai-hero {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.ai-page-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 15px;
+  letter-spacing: -1px;
+}
+
+.text-red {
+  color: #e50914;
+}
+
+.ai-subtitle {
+  color: #a0a0a0;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+/* --- Glassmorphism Search Interface --- */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 40px auto 0 auto;
+}
+
 .search-form {
   display: flex;
-  max-width: 700px;
-  gap: 15px;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
 }
 
 .search-input {
   flex: 1;
-  padding: 15px 25px;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.05);
+  padding: 18px 25px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Translucent background for glass effect */
+  background: rgba(255, 255, 255, 0.03); 
+  /* The blur effect */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: white;
   font-size: 1.1rem;
   outline: none;
-  transition: border-color 0.3s ease;
-  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
 .search-input:focus {
-  border-color: #00d2ff;
+  border-color: #e50914; /* Replaced cyan with cinematic red */
   background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(229, 9, 20, 0.2); /* Added a subtle red glow */
+}
+
+.search-input::placeholder {
+  color: #666;
 }
 
 .search-btn {
   padding: 0 35px;
   border-radius: 30px;
   border: none;
-  background: linear-gradient(90deg, #00d2ff, #3a7bd5);
-  color: #121212;
+  background: #e50914; /* Brand Red */
+  color: #ffffff; /* Crisp white text */
   font-weight: bold;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother modern animation */
+  box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3); /* Base shadow */
 }
 
 .search-btn:hover {
   transform: translateY(-2px);
-  opacity: 0.9;
+  background: #f40612; /* Slightly brighter red on hover */
+  box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5); /* Stronger glow on hover */
 }
 
-/* Ensure the dropdown stays attached to the search bar */
-.search-wrapper {
-  position: relative;
-  max-width: 700px;
-  width: 100%;
-}
-
-/* The Dropdown Menu */
+/* --- Autocomplete Dropdown --- */
 .autocomplete-dropdown {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 12px);
   left: 0;
-  width: calc(100% - 130px); /* Matches the width of the input box, leaving room for the button */
-  background: rgba(18, 18, 18, 0.95);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  margin-top: 8px;
-  padding: 8px 0;
+  width: calc(100% - 145px); /* Aligns perfectly with input box width */
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 10px 0;
   list-style: none;
-  max-height: 250px;
-  overflow-y: auto;
+  text-align: left;
   z-index: 1000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+  max-height: 280px;
+  overflow-y: auto;
 }
 
-/* Custom Scrollbar for the dropdown */
+/* Custom Webkit Scrollbar */
 .autocomplete-dropdown::-webkit-scrollbar {
   width: 8px;
 }
 .autocomplete-dropdown::-webkit-scrollbar-thumb {
-  background: rgba(0, 210, 255, 0.3);
+  background: rgba(229, 9, 20, 0.5); /* Changed from blue to red */
   border-radius: 10px;
 }
 
-/* Individual Movie List Items */
 .dropdown-item {
   padding: 12px 25px;
   color: white;
@@ -84,7 +132,50 @@
 }
 
 .dropdown-item:hover {
-  background: rgba(0, 210, 255, 0.15);
-  color: #00d2ff;
+  background: #e50914; /* Added the missing semicolon here! */
+  color: white;
   padding-left: 30px; /* Cool slight bump effect on hover */
+  border-left: 3px solid #ffffff; /* Adds a clean white accent line */
+}
+
+/* --- Clean Empty State --- */
+.empty-state-container {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.6;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.glow-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.empty-state-container p {
+  color: #888;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* --- Error Handling --- */
+.error-container {
+  margin-top: 30px;
+  padding: 15px 30px;
+  background: rgba(229, 9, 20, 0.1);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  border-radius: 12px;
+}
+
+.error-msg {
+  color: #ff4d4d;
+  font-weight: 600;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 0.6; transform: translateY(0); }
 }

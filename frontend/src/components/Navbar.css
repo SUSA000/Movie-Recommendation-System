@@ -1,60 +1,148 @@
+/* Sleek, dark cinematic background */
 .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 40px;
+  padding: 15px 50px;
+  background-color: #0b0b0b; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
   z-index: 1000;
-  
-  /* Glassmorphism Effect */
-  background: rgba(18, 18, 18, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.nav-brand a {
-  color: #00d2ff;
-  font-size: 1.5rem;
-  font-weight: bold;
+/* Logo Styling */
+.navbar-logo {
+  font-size: 24px;
+  font-weight: 800;
   text-decoration: none;
   letter-spacing: 1px;
-}
-
-.nav-links {
   display: flex;
   align-items: center;
-  gap: 20px;
 }
 
-.nav-item {
-  color: white;
+.logo-white { color: #ffffff; }
+.logo-red { color: #e50914; }
+
+/* Links Container */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Individual Text Links */
+.nav-link {
+  color: #e1e1e1;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 15px;
   font-weight: 500;
   transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
 }
 
-.nav-item:hover {
-  color: #00d2ff;
+.nav-link:hover {
+  color: #e50914; /* Turns cinematic red on hover */
 }
 
-.nav-btn, .logout-btn {
-  background: linear-gradient(90deg, #3a7bd5, #3a6073);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
+/* Button Styling (Matches your new Auth buttons) */
+.nav-btn {
+  padding: 10px 24px;
+  border-radius: 30px; /* Pill shape */
+  font-size: 14px;
+  font-weight: 600;
   text-decoration: none;
-  border: none;
-  font-weight: bold;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: all 0.3s ease;
+  border: none;
 }
 
-.nav-btn:hover, .logout-btn:hover {
-  opacity: 0.9;
+.signup-btn {
+  background-color: #e50914;
+  color: white;
+}
+
+.signup-btn:hover {
+  background-color: #f40612;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+}
+
+.logout-btn {
+  background-color: transparent;
+  color: #e1e1e1;
+  border: 1px solid #e1e1e1;
+}
+
+.logout-btn:hover {
+  background-color: #e50914;
+  color: white;
+  border-color: #e50914;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .navbar { 
+    padding: 15px 20px; 
+  }
+  .navbar-links { 
+    gap: 15px; 
+  }
+  .nav-link span {
+    display: none; /* Hides text like "AI Match" on small screens, keeps the emoji */
+  }
+}
+
+/* Keeps the logo and text perfectly aligned side-by-side */
+.navbar-logo {
+  font-size: 24px;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 78px; /* Adds a nice space between the picture and the text */
+}
+
+.brand-text {
+  display: flex;
+  align-items: center;
+}
+
+.logo-white { color: #ffffff; }
+.logo-red { color: #e50914; }
+
+.brand-image {
+  height: 40px; /* Keep this small so the navbar stays perfectly thin! */
+  width: auto;
+  object-fit: contain;
+  /* This scales the logo up by 60% visually without changing the navbar height */
+  transform: scale(5.0); 
+  /* Anchors the zoom to the left so it doesn't crash into the "CineMatch" text */
+  transform-origin: left center; 
+  transition: transform 0.3s ease;
+}
+
+.brand-image:hover {
+  /* Slightly bigger on hover to keep your smooth animation working */
+  transform: scale(4.5); 
+}
+
+.ai-nav-link {
+  display: flex;
+  align-items: center; 
+}
+
+.lottie-icon {
+  width: 45px; 
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-nav-link:hover .lottie-icon {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
 }

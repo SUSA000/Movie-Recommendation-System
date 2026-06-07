@@ -18,7 +18,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/watchlist" element={<Watchlist />} />
-          <Route path="/ai-search" element={<AiSearch />} />
+          <Route path="/ai-match" element={<AiSearch />} />
         </Routes>
       </div>
     </Router>
