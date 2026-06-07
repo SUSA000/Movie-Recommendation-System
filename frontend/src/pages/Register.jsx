@@ -3,22 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import './Auth.css'; 
 
 const Register = () => {
-  // State variables to hold the form data
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   
-  // React Router hook to redirect the user after a successful login
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
-    e.preventDefault(); // Prevents the page from refreshing when the form is submitted
+    e.preventDefault(); 
     setError('');
 
     try {
-      // Sending the request to your Express backend
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      // FIXED SYNTAX HERE:
+      const response = await fetch('https://susa000-movie-node-backend.hf.space/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password })
@@ -29,10 +27,10 @@ const Register = () => {
       if (response.ok) {
         // Save the JWT token to the browser's local storage
         localStorage.setItem('token', data.token);
-        // Redirect the user to the Home page
-        navigate('/');
+        // Force a page reload to update the Navbar state, then redirect home
+        window.location.href = '/';
       } else {
-        // Display the error message from your backend (e.g., "Email already exists")
+        // Display the error message from your backend
         setError(data.message);
       }
     } catch (err) {
