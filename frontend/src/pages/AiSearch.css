@@ -179,3 +179,79 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 0.6; transform: translateY(0); }
 }
+
+.empty-state-container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.lottie-hero-wrapper {
+  margin-bottom: 10px;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 20px rgba(229, 9, 20, 0.2)); /* Gives the Lottie a subtle red glow */
+}
+
+.empty-state-text {
+  color: #888;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 50px;
+}
+
+/* --- Features Grid --- */
+.ai-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  max-width: 900px;
+  width: 100%;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 30px 25px;
+  border-radius: 16px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(229, 9, 20, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(229, 9, 20, 0.1);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.feature-card h4 {
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.feature-card p {
+  color: #a0a0a0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Mobile Responsiveness for the Grid */
+@media (max-width: 768px) {
+  .ai-features-grid {
+    grid-template-columns: 1fr; /* Stacks the cards vertically on phones */
+    padding: 0 20px;
+  }
+}
