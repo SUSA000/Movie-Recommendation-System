@@ -5,7 +5,9 @@ import './Auth.css';
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [age, setAge] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   
   const navigate = useNavigate();
@@ -14,11 +16,23 @@ const Register = () => {
     e.preventDefault(); 
     setError('');
 
+    // 1. Validation Checks
+    if (password !== confirmPassword) {
+      setError('Passwords do not match!');
+      return;
+    }
+
+    if (age < 13) {
+      setError('You must be at least 13 years old to register.');
+      return;
+    }
+
     try {
+      // 2. Send the new data (including age) to your Node backend
       const response = await fetch('https://susa000-movie-node-backend.hf.space/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password })
+        body: JSON.stringify({ username, email, age: Number(age), password })
       });
       
       const data = await response.json();
@@ -47,21 +61,39 @@ const Register = () => {
 
           {error && <p className="error-msg">{error}</p>}
           
-          <form className="auth-form" onSubmit={handleRegister}>
+          {/* Added autoComplete="off" to the form element */}
+          <form className="auth-form" onSubmit={handleRegister} autoComplete="off">
+            
             <input 
               type="text" 
               placeholder="Username" 
               value={username} 
               onChange={(e) => setUsername(e.target.value)} 
               required 
+              autoComplete="off"
             />
+            
             <input 
               type="email" 
               placeholder="Email Address" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
+              autoComplete="off"
             />
+
+            <input 
+              type="number" 
+              placeholder="Age" 
+              value={age} 
+              onChange={(e) => setAge(e.target.value)} 
+              required 
+              min="1"
+              max="120"
+              autoComplete="off"
+            />
+            
+            {/* Using new-password forces the browser to stop auto-filling the username above it */}
             <input 
               type="password" 
               placeholder="Password (Min. 6 characters)" 
@@ -69,7 +101,19 @@ const Register = () => {
               onChange={(e) => setPassword(e.target.value)} 
               required 
               minLength="6"
+              autoComplete="new-password" 
             />
+
+            <input 
+              type="password" 
+              placeholder="Confirm Password" 
+              value={confirmPassword} 
+              onChange={(e) => setConfirmPassword(e.target.value)} 
+              required 
+              minLength="6"
+              autoComplete="new-password"
+            />
+
             <button className="auth-btn" type="submit">SIGN UP</button>
           </form>
 
