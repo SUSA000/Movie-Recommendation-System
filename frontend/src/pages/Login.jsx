@@ -72,6 +72,10 @@ const Login = () => {
         {/* Right Side: Visual Branding */}
         <div className="auth-image-section">
           <div className="auth-image-overlay">
+            
+            {/* NEW: Added Logo Image here */}
+            <img src="/LOGO.png" alt="CineMatch Logo" className="auth-brand-icon" />
+            
             <h1 className="brand-logo">CineMatch</h1>
             <p className="brand-tagline">
               Experience the power of Machine Learning. Let our AI find the perfect movies tailored exactly to your taste.

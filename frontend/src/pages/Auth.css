@@ -132,14 +132,12 @@
 .auth-image-section {
   flex: 1;
   position: relative;
-  /* Premium dark cinematic background image */
   background: url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1000') center/cover no-repeat;
 }
 
 .auth-image-overlay {
   position: absolute;
   inset: 0;
-  /* Dark red/black gradient overlay */
   background: linear-gradient(135deg, rgba(229, 9, 20, 0.85), rgba(0, 0, 0, 0.9));
   display: flex;
   flex-direction: column;
@@ -150,11 +148,28 @@
   padding: 40px;
 }
 
+/* --- NEW: Auth Logo Image --- */
+.auth-brand-icon {
+  height: 220px; /* A very large base height */
+  width: 100%; /* Allows it to fill the column perfectly */
+  max-width: 320px; /* Prevents it from touching the extreme left/right edges */
+  
+  /* THE SECRET: Visually enlarges the logo by an extra 30% without breaking the layout */
+  transform: scale(2.3); 
+  
+  margin-bottom: 50px; /* Increased margin so the scaled logo doesn't overlap your text */
+  margin-left: 100px; /* Pulls the logo up slightly to balance the new size */
+  object-fit: contain;
+  
+  /* A deeper, wider shadow to match the massive new size */
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.6)); 
+}
+
 .brand-logo {
   font-size: 42px;
-  font-weight: 800;
+  font-weight: 450;
   letter-spacing: 2px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .brand-tagline {
@@ -208,6 +223,13 @@
   
   .brand-logo {
     font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  .auth-brand-icon {
+    height: 50px; 
+    margin-left: 20px; /* Resets the left margin for mobile */
+    transform: scale(3.1); /* Slightly smaller scale for phones */
     margin-bottom: 10px;
   }
   

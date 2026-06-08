@@ -82,6 +82,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: scale(1.5); 
 }
 
 .ai-nav-link:hover .lottie-icon {
