@@ -4,14 +4,23 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 3%;
-  background-color: rgba(11, 11, 11, 0.95); /* Slight transparency */
-  backdrop-filter: blur(10px); /* Glassmorphism effect */
+  background-color: rgba(11, 11, 11, 0.95);
+  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
   position: sticky;
   top: 0;
   z-index: 1000;
   height: 70px;
+}
+
+/* --- Mobile Menu Icon (HIDDEN ON DESKTOP) --- */
+.mobile-menu-icon {
+  display: none; /* Crucial: Hides it from desktop view */
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+  z-index: 1001;
 }
 
 /* --- Logo Styling --- */
@@ -22,22 +31,20 @@
   letter-spacing: 1px;
   display: flex;
   align-items: center;
-  gap: 65px; /* Fixed the massive 78px gap */
+  gap: 50px; /* Reduced gap to keep logo and text closer */
 }
 
 .brand-image {
-  height: 40px; /* Keeps the physical box small so the navbar stays thin */
+  height: 40px;
   width: auto;
   object-fit: contain;
-  /* Visually increase the size by 40% (change this number to 1.3, 1.5, or 1.8 to dial it in) */
-  transform: scale(4.5); 
-  /* Anchors the logo to the left so it doesn't grow off the edge of the screen */
-  transform-origin: left center; 
+  transform: scale(3.8); /* Adjusted to a more stable scale */
+  transform-origin: left center;
   transition: transform 0.3s ease;
 }
 
 .navbar-logo:hover .brand-image {
-  transform: scale(3.5); /* Gentle, clean hover effect */
+  transform: scale(2.0);
 }
 
 .brand-text {
@@ -67,7 +74,7 @@
 }
 
 .nav-link:hover {
-  color: #e50914; 
+  color: #e50914;
 }
 
 /* --- CineAI Special Link --- */
@@ -77,23 +84,23 @@
 }
 
 .lottie-icon {
-  width: 40px; 
+  width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: scale(1.5); 
+  transform: scale(1.2);
 }
 
 .ai-nav-link:hover .lottie-icon {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.2);
   transition: transform 0.3s ease;
 }
 
 /* --- Buttons --- */
 .nav-btn {
   padding: 10px 24px;
-  border-radius: 30px; 
+  border-radius: 30px;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
@@ -128,46 +135,38 @@
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
   .mobile-menu-icon {
-    display: block; /* Show hamburger on mobile */
+    display: block; /* Show hamburger only on mobile */
   }
 
-  /* NEW: Shrink the brand text and the gap on mobile */
   .navbar-logo {
-    font-size: 18px; 
-    gap: 23px; /* Shrinks the massive 65px gap so the text fits */
+    font-size: 18px;
+    gap: 15px;
   }
 
-  /* NEW: Shrink the logo scale specifically for mobile phones */
   .brand-image {
-    transform: scale(2.5); /* Down from 4.5 */
-  }
-  
-  .navbar-logo:hover .brand-image {
-    transform: scale(2.6); /* Keeps the hover effect smooth on mobile */
+    transform: scale(1.5);
   }
 
   .navbar-links {
     position: absolute;
-    top: 70px; /* Starts exactly below the navbar */
-    right: -100%; /* Hidden off-screen to the right */
+    top: 70px;
+    right: -100%;
     flex-direction: column;
     background-color: rgba(11, 11, 11, 0.98);
     width: 100%;
-    height: calc(100vh - 70px); /* Full screen height */
+    height: calc(100vh - 70px);
     align-items: center;
     justify-content: flex-start;
     padding-top: 40px;
     gap: 40px;
-    transition: right 0.4s ease; /* Smooth slide animation */
+    transition: right 0.4s ease;
     backdrop-filter: blur(15px);
   }
 
-  /* When state is true, this class slides the menu in */
   .navbar-links.active {
-    right: 0; 
+    right: 0;
   }
 
-  /* Make buttons bigger on mobile for easy tapping */
   .nav-btn {
     width: 80%;
     text-align: center;

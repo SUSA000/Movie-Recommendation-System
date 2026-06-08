@@ -4,6 +4,7 @@ import './Home.css';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
+  const [toastMessage, setToastMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -14,12 +15,12 @@ const Home = () => {
         const response = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`);
         const data = await response.json();
         
-        // NEW: Safety check to prevent the fatal .map() crash!
+        // Safety check to prevent the fatal .map() crash
         if (data.results) {
           setMovies(data.results);
         } else {
           console.error("TMDB returned an error instead of movies:", data);
-          setMovies([]); // Fallback to an empty array so it doesn't crash
+          setMovies([]); 
         }
       } catch (error) {
         console.error("Error fetching movies:", error);
@@ -34,21 +35,18 @@ const Home = () => {
 
   const saveToWatchlist = async (movie) => {
     const token = localStorage.getItem('token');
-    
     if (!token) {
-      alert("You must be logged in to save movies!");
       navigate('/login');
       return;
     }
-
+    
     try {
       const movieData = {
         movieId: movie.id.toString(),
         title: movie.title || movie.name,
         posterPath: movie.poster_path
       };
-
-      // UPDATED: Now points to your live Hugging Face Node.js database!
+      
       const response = await fetch('https://susa000-movie-node-backend.hf.space/api/user/watchlist', {
         method: 'POST',
         headers: {
@@ -61,13 +59,19 @@ const Home = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert(`${movie.title || movie.name} added to your Watchlist! 🍿`);
+        // --- FIXED: Using the custom Toast state instead of alert ---
+        setToastMessage(`${movie.title || movie.name} added to your Watchlist! 🍿`);
+        
+        // Clear the toast after 3 seconds so the animation resets
+        setTimeout(() => setToastMessage(''), 3000);
       } else {
-        alert(data.message); 
+        setToastMessage(`Error: ${data.message}`); 
+        setTimeout(() => setToastMessage(''), 3000);
       }
     } catch (error) {
       console.error("Error saving movie:", error);
-      alert("Failed to connect to the server.");
+      setToastMessage("Failed to connect to the server.");
+      setTimeout(() => setToastMessage(''), 3000);
     }
   };
 
@@ -104,6 +108,19 @@ const Home = () => {
           )}
         </div>
       )}
+
+      {/* --- FIXED: Placed safely INSIDE the home-container div --- */}
+      {toastMessage && (
+        <div className="glass-toast">
+          <img src="/LOGO.png" alt="CineMatch Icon" className="toast-logo" />
+          <div className="toast-text-container">
+            <h4 className="toast-title">Notification</h4>
+            <p className="toast-desc">{toastMessage}</p>
+          </div>
+          <div className="toast-progress-bar"></div>
+        </div>
+      )}
+      
     </div>
   );
 };
