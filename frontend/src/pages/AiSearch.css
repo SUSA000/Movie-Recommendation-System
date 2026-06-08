@@ -1,7 +1,7 @@
 /* --- Base Layout --- */
 .ai-search-container {
   padding: 60px 5%;
-  min-height: calc(100vh - 80px); /* Adjusts for navbar height */
+  min-height: calc(100vh - 70px);
   background-color: #0b0b0b;
   display: flex;
   flex-direction: column;
@@ -53,9 +53,7 @@
   padding: 18px 25px;
   border-radius: 50px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  /* Translucent background for glass effect */
   background: rgba(255, 255, 255, 0.03); 
-  /* The blur effect */
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   color: white;
@@ -66,9 +64,9 @@
 }
 
 .search-input:focus {
-  border-color: #e50914; /* Replaced cyan with cinematic red */
+  border-color: #e50914;
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 15px rgba(229, 9, 20, 0.2); /* Added a subtle red glow */
+  box-shadow: 0 0 15px rgba(229, 9, 20, 0.2); 
 }
 
 .search-input::placeholder {
@@ -77,21 +75,21 @@
 
 .search-btn {
   padding: 0 35px;
-  border-radius: 30px;
+  border-radius: 50px;
   border: none;
-  background: #e50914; /* Brand Red */
-  color: #ffffff; /* Crisp white text */
+  background: #e50914;
+  color: #ffffff;
   font-weight: bold;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother modern animation */
-  box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3); /* Base shadow */
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
 }
 
 .search-btn:hover {
   transform: translateY(-2px);
-  background: #f40612; /* Slightly brighter red on hover */
-  box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5); /* Stronger glow on hover */
+  background: #f40612;
+  box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5);
 }
 
 /* --- Autocomplete Dropdown --- */
@@ -99,8 +97,8 @@
   position: absolute;
   top: calc(100% + 12px);
   left: 0;
-  width: calc(100% - 145px); /* Aligns perfectly with input box width */
-  background: rgba(18, 18, 18, 0.85);
+  width: calc(100% - 145px); 
+  background: rgba(18, 18, 18, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -114,12 +112,11 @@
   overflow-y: auto;
 }
 
-/* Custom Webkit Scrollbar */
 .autocomplete-dropdown::-webkit-scrollbar {
   width: 8px;
 }
 .autocomplete-dropdown::-webkit-scrollbar-thumb {
-  background: rgba(229, 9, 20, 0.5); /* Changed from blue to red */
+  background: rgba(229, 9, 20, 0.5);
   border-radius: 10px;
 }
 
@@ -132,56 +129,15 @@
 }
 
 .dropdown-item:hover {
-  background: #e50914; /* Added the missing semicolon here! */
+  background: #e50914;
   color: white;
-  padding-left: 30px; /* Cool slight bump effect on hover */
-  border-left: 3px solid #ffffff; /* Adds a clean white accent line */
+  padding-left: 30px; 
+  border-left: 3px solid #ffffff; 
 }
 
-/* --- Clean Empty State --- */
+/* --- Professional Empty State --- */
 .empty-state-container {
-  margin-top: 60px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  opacity: 0.6;
-  animation: fadeIn 1s ease-in-out;
-}
-
-.glow-icon {
-  font-size: 3rem;
-  margin-bottom: 15px;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-}
-
-.empty-state-container p {
-  color: #888;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-/* --- Error Handling --- */
-.error-container {
-  margin-top: 30px;
-  padding: 15px 30px;
-  background: rgba(229, 9, 20, 0.1);
-  border: 1px solid rgba(229, 9, 20, 0.3);
-  border-radius: 12px;
-}
-
-.error-msg {
-  color: #ff4d4d;
-  font-weight: 600;
-}
-
-/* --- Animations --- */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 0.6; transform: translateY(0); }
-}
-
-.empty-state-container {
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -192,7 +148,7 @@
 .lottie-hero-wrapper {
   margin-bottom: 10px;
   opacity: 0.9;
-  filter: drop-shadow(0 0 20px rgba(229, 9, 20, 0.2)); /* Gives the Lottie a subtle red glow */
+  filter: drop-shadow(0 0 20px rgba(229, 9, 20, 0.2));
 }
 
 .empty-state-text {
@@ -200,6 +156,7 @@
   font-size: 1.1rem;
   font-weight: 500;
   margin-bottom: 50px;
+  text-align: center;
 }
 
 /* --- Features Grid --- */
@@ -248,10 +205,149 @@
   line-height: 1.6;
 }
 
-/* Mobile Responsiveness for the Grid */
+/* --- Movie Grid Results --- */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 40px;
+}
+
+.movie-card {
+  background: #141414;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.movie-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(229, 9, 20, 0.2);
+  border-color: rgba(229, 9, 20, 0.3);
+}
+
+.movie-poster {
+  width: 100%;
+  height: 330px;
+  object-fit: cover;
+}
+
+.movie-info {
+  padding: 15px;
+  color: white;
+}
+
+.movie-info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adds '...' if title is too long */
+}
+
+.movie-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rating {
+  color: #f5c518;
+  font-weight: bold;
+}
+
+.save-btn {
+  background: transparent;
+  color: #e50914;
+  border: 1px solid #e50914;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.save-btn:hover {
+  background: #e50914;
+  color: white;
+}
+
+.error-container {
+  margin-top: 30px;
+  padding: 15px 30px;
+  background: rgba(229, 9, 20, 0.1);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  border-radius: 12px;
+}
+
+.error-msg {
+  color: #ff4d4d;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   📱 MOBILE RESPONSIVENESS (Magic Happens Here)
+   ========================================= */
 @media (max-width: 768px) {
+  .ai-search-container {
+    padding: 30px 20px; /* Less padding on the sides */
+  }
+
+  .ai-page-title {
+    font-size: 2.2rem; /* Shrink title */
+  }
+
+  .ai-subtitle {
+    font-size: 0.95rem; /* Shrink subtitle */
+    padding: 0 10px;
+  }
+
+  /* Stack the search bar and button */
+  .search-form {
+    flex-direction: column; 
+    gap: 15px;
+  }
+
+  .search-btn {
+    padding: 15px;
+    width: 100%; /* Button takes full width */
+    border-radius: 15px; /* Adjust radius for stacked look */
+  }
+
+  .search-input {
+    border-radius: 15px; /* Adjust radius for stacked look */
+  }
+
+  .autocomplete-dropdown {
+    width: 100%; /* Dropdown matches full width */
+    top: calc(100% + 5px);
+  }
+
+  /* Stack the features grid vertically */
   .ai-features-grid {
-    grid-template-columns: 1fr; /* Stacks the cards vertically on phones */
-    padding: 0 20px;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Make movie cards fit perfectly on small screens */
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+    gap: 15px;
+  }
+
+  .movie-poster {
+    height: 240px; /* Slightly shorter posters on phones */
+  }
+
+  .movie-info h3 {
+    font-size: 0.95rem;
   }
 }
