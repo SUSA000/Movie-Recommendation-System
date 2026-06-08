@@ -125,19 +125,25 @@
   border-color: #e50914;
 }
 
-/* --- Mobile Menu Icon --- */
-.mobile-menu-icon {
-  display: none; /* Hidden on desktop */
-  font-size: 28px;
-  color: white;
-  cursor: pointer;
-  z-index: 1001; /* Keeps icon above the sliding menu */
-}
-
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
   .mobile-menu-icon {
     display: block; /* Show hamburger on mobile */
+  }
+
+  /* NEW: Shrink the brand text and the gap on mobile */
+  .navbar-logo {
+    font-size: 18px; 
+    gap: 23px; /* Shrinks the massive 65px gap so the text fits */
+  }
+
+  /* NEW: Shrink the logo scale specifically for mobile phones */
+  .brand-image {
+    transform: scale(2.5); /* Down from 4.5 */
+  }
+  
+  .navbar-logo:hover .brand-image {
+    transform: scale(2.6); /* Keeps the hover effect smooth on mobile */
   }
 
   .navbar-links {
