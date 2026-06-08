@@ -11,3 +11,11 @@ body {
   color: #ffffff;
   font-family: 'Segoe UI', sans-serif;
 }
+
+/* --- Fix Mobile Horizontal Scrolling --- */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
