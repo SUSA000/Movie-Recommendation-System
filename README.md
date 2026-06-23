@@ -1,6 +1,7 @@
 # 🎬 AI-Powered Movie Recommendation System
 
-![Movie Recommendation Banner](https://via.placeholder.com/1000x400?text=Movie+Recommendation+System+-+MERN+%2B+Flask+AI)
+<img width="1536" height="1024" alt="movie-rec" src="https://github.com/user-attachments/assets/889a46e9-c687-4dc4-8fd0-489c2a57cd58" />
+
 
 A full-stack, microservice-based web application that combines the **MERN stack** with a **Python/Flask Machine Learning engine**. It fetches live trending movies using the TMDB API, allows users to securely save favorites to a MongoDB cloud database, and features a custom content-based filtering algorithm to suggest visually and contextually similar movies.
 
